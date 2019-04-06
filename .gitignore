@@ -1,0 +1,8 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+*.suo
+*.exe
+/Source/FileMonitor.ScanningAgent/obj/
+/Source/FileMonitor.ScanningAgent/bin/
