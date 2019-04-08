@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 namespace FileMonitor.ScanningAgent
@@ -5,13 +6,9 @@ namespace FileMonitor.ScanningAgent
     interface IFileMonitorDataAccess
     {
         bool FileAlreadyHashed(string filePath);
-        void FileHashed(string filePath);
-        void AddFileHash(string filePath, string hash);
-        void AddFailure(string filePath, string errorMessage);
-        long GetFailureCount();
-
+        void UpdateFileHash(string filePath, string hash, DateTime fileMofifiedOn, DateTime fileCreatedOn, long fileSize);
         Dictionary<string, string> GetAllHashedFiles();
-        List<string> GetAllFailures();
+        void AddFailure(string filePath, string errorMessage, string stackTrace);
 
     }
 }

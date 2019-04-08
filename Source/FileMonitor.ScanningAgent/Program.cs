@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.Contracts;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -9,12 +11,16 @@ namespace FileMonitor.ScanningAgent
     {
         static void Main(string[] args)
         {
+            Config config = new Config();
+            IFileMonitorDataAccess dataAccess = new SimulatedDatabase(config);
+
+
             string scanroot = System.Configuration.ConfigurationManager.AppSettings["ScanRoot"];
             var files = new List<string>();
             
             Console.WriteLine("Generating List of files ...");
             Console.WriteLine();
-            foreach (string f in System.IO.Directory.GetFiles(scanroot, "*", System.IO.SearchOption.AllDirectories))
+            foreach (string f in Directory.GetFiles(scanroot, "*", SearchOption.AllDirectories))
             {
                 files.Add(f);    
                 Console.Write(".");
@@ -25,31 +31,33 @@ namespace FileMonitor.ScanningAgent
             Console.WriteLine();
 
             IHashGenerator gen = new Sha1HashGenerator();
-            IFileMonitorDataAccess dataAccess = new SimulatedDatabase();
 
             foreach (string filePath in files)
             {
                 try
                 {
-                    bool alreadyHashed = dataAccess.FileAlreadyHashed(filePath);
-                    if(!alreadyHashed)
+                    if (!dataAccess.FileAlreadyHashed(filePath))
                     {
+                        FileInfo fileInfo = new FileInfo(filePath);
+
                         string hash = gen.GenerateHash(filePath);
 
-                        dataAccess.AddFileHash(filePath, hash);
-                        
+                        dataAccess.UpdateFileHash(filePath, hash, fileInfo.LastWriteTime, fileInfo.CreationTime,
+                            fileInfo.Length);
+
                         Console.Write(".");
-                    }
+                    } else Console.Write("^");
                 }
 
                 catch (Exception e)
                 {
-                    dataAccess.AddFailure(filePath, e.ToString());
-                    
+                    Console.Write("!");
+                    dataAccess.AddFailure(filePath, e.ToString(), e.StackTrace);
                 }
             }
-
-            Console.WriteLine(dataAccess.GetFailureCount() + "read failures experienced.");
+            Console.WriteLine();
+            Console.WriteLine("Hit a key to close.");
+            Console.ReadKey();
         }
     }
 }

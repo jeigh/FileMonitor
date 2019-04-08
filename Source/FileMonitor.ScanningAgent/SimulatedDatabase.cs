@@ -1,50 +1,94 @@
+using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data;
 using System.Linq;
+using System.Runtime.InteropServices;
+
 
 namespace FileMonitor.ScanningAgent
 {
+    public class Config
+    {
+        public string DataFile => ConfigurationManager.AppSettings["DataFile"];
+        public string ErrorsDataFile => ConfigurationManager.AppSettings["ErrorsDataFile"];
+    }
+
+    public interface ITable
+    {
+        void PersistDatabase();
+        void Configure();
+        DataRow NewRow();
+        void AddRow(DataRow dr);
+    }
+
     public class SimulatedDatabase : IFileMonitorDataAccess
     {
-        //todo: find some way of pulling these from storage
 
-        private List<string> _hashedFiles = new List<string>();
-        private Dictionary<string, string> fileHashes = new Dictionary<string, string>();
-        private Dictionary<string, string> failures = new Dictionary<string, string>();
+        private Config _config;
         
-        public bool FileAlreadyHashed(string filePath)
+        public SimulatedErrorsDataTable _errors = null;
+        public HashesSimulatedDataTable _hashes = null;
+
+        public SimulatedDatabase(Config config)
         {
-            return _hashedFiles.Contains(filePath);
+            _config = config;
+
+            _errors = new SimulatedErrorsDataTable(_config);
+            _hashes = new HashesSimulatedDataTable(_config);
+
+            ConfigureDatabase();
         }
 
-        public void FileHashed(string filePath)
+        ~SimulatedDatabase()
         {
-            _hashedFiles.Add(filePath);
+            PersistDatabase();
         }
 
-        public void AddFileHash(string filePath, string hash)
+        private void PersistDatabase()
         {
-            fileHashes.Add(filePath, hash);
-            this.FileHashed(filePath);
+            _hashes.PersistDatabase();
+            _errors.PersistDatabase();
         }
 
-        public void AddFailure(string filePath, string errorMessage)
+        private void ConfigureDatabase()
         {
-            failures.Add(filePath, errorMessage);
+            _errors.Configure();
+            _hashes.Configure();
+            Console.WriteLine("Database Recovered.");
         }
 
-        public long GetFailureCount()
+        public bool FileAlreadyHashed(string filePath) => _hashes.FileAlreadyHashed(filePath);
+        
+        public void UpdateFileHash(string filePath, string hash, DateTime fileMofifiedOn, DateTime fileCreatedOn, long fileSize)
         {
-            return failures.LongCount();
+            DataRow dr = _hashes.GetHashedFile(filePath);
+            if (dr == null) dr = _hashes.NewRow();
+
+            dr["FilePath"] = filePath;
+            dr["Hash"] = hash;
+            dr["LastScannedOn"] = DateTime.Now;
+
+            dr["FileModifiedOn"] = fileMofifiedOn;
+            dr["FileCreatedOn"] = fileCreatedOn;
+            dr["FileSize"] = fileSize; 
+
+            _hashes.AddRow(dr);
+            PersistDatabase();
         }
 
-        public Dictionary<string, string> GetAllHashedFiles()
-        {
-            return fileHashes;
-        }
+        public Dictionary<string, string> GetAllHashedFiles() => _hashes.GetAllHashedFiles();
 
-        public List<string> GetAllFailures()
+        public void AddFailure(string filePath, string errorMessage, string stackTrace)
         {
-            return failures.Values.ToList();
+            DataRow dr = _errors.NewRow();
+            
+            dr["ReceivedOn"] = DateTime.Now;
+            dr["ErrorMessage"] = errorMessage;
+            dr["StackTrace"] = stackTrace;
+
+            _errors.AddRow(dr);
+            _errors.PersistDatabase();
         }
     }
 }
