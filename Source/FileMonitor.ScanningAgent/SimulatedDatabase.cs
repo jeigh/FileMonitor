@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -8,33 +7,19 @@ using System.Runtime.InteropServices;
 
 namespace FileMonitor.ScanningAgent
 {
-    public class Config
-    {
-        public string DataFile => ConfigurationManager.AppSettings["DataFile"];
-        public string ErrorsDataFile => ConfigurationManager.AppSettings["ErrorsDataFile"];
-    }
-
-    public interface ITable
-    {
-        void PersistDatabase();
-        void Configure();
-        DataRow NewRow();
-        void AddRow(DataRow dr);
-    }
-
     public class SimulatedDatabase : IFileMonitorDataAccess
     {
 
         private Config _config;
         
-        public SimulatedErrorsDataTable _errors = null;
+        public ErrorsSimulatedDataTable _errors = null;
         public HashesSimulatedDataTable _hashes = null;
 
         public SimulatedDatabase(Config config)
         {
             _config = config;
 
-            _errors = new SimulatedErrorsDataTable(_config);
+            _errors = new ErrorsSimulatedDataTable(_config);
             _hashes = new HashesSimulatedDataTable(_config);
 
             ConfigureDatabase();

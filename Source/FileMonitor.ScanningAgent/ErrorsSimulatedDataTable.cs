@@ -2,14 +2,14 @@ using System.Data;
 
 namespace FileMonitor.ScanningAgent
 {
-    public class SimulatedErrorsDataTable : ITable
+    public class ErrorsSimulatedDataTable : ITable
     {
         private Config _config;
 
         private DataTable errorsDataTable = new DataTable("Errors");
         
 
-        public SimulatedErrorsDataTable(Config config)
+        public ErrorsSimulatedDataTable(Config config)
         {
             _config = config;
         }

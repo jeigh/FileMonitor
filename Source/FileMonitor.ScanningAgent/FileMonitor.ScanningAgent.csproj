@@ -44,14 +44,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Config.cs" />
     <Compile Include="HashesSimulatedDataTable.cs" />
-    <Compile Include="IFileMonitorDataAccess.cs" />
-    <Compile Include="IHashGenerator.cs" />
+    <Compile Include="Interfaces\IFileMonitorDataAccess.cs" />
+    <Compile Include="Interfaces\IHashGenerator.cs" />
+    <Compile Include="Interfaces\ITable.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Sha1HashGenerator.cs" />
     <Compile Include="SimulatedDatabase.cs" />
-    <Compile Include="SimulatedErrorsDataTable.cs" />
+    <Compile Include="ErrorsSimulatedDataTable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
