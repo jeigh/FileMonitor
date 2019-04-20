@@ -34,12 +34,14 @@ namespace FileMonitor.ScanningAgent
         {
             _hashes.PersistDatabase();
             _errors.PersistDatabase();
+
         }
 
         private void ConfigureDatabase()
         {
             _errors.Configure();
             _hashes.Configure();
+
             Console.WriteLine("Database Recovered.");
         }
 
@@ -59,7 +61,7 @@ namespace FileMonitor.ScanningAgent
             dr["FileSize"] = fileSize; 
 
             _hashes.AddRow(dr);
-            PersistDatabase();
+            _hashes.PersistDatabase();
         }
 
         public Dictionary<string, string> GetAllHashedFiles() => _hashes.GetAllHashedFiles();
