@@ -1,6 +1,6 @@
 using System.Configuration;
 
-namespace FileMonitor.ScanningAgent
+namespace FileMonitor.ClassLibrary
 {
     public class Config
     {

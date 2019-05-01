@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{2D738EDD-19EF-4754-943F-45C0E2B55ABF}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{65D4D823-7AA5-4FB6-9413-9D35064D17DE}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>FileMonitor.ScanningAgent</RootNamespace>
-    <AssemblyName>FileMonitor.ScanningAgent</AssemblyName>
+    <RootNamespace>Filemonitor.ClassLibrary</RootNamespace>
+    <AssemblyName>Filemonitor.ClassLibrary</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -44,17 +41,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Program.cs" />
+    <Compile Include="Config.cs" />
+    <Compile Include="ErrorsSimulatedDataTable.cs" />
+    <Compile Include="HashesSimulatedDataTable.cs" />
+    <Compile Include="Interfaces\IFileMonitorDataAccess.cs" />
+    <Compile Include="Interfaces\IHashGenerator.cs" />
+    <Compile Include="Interfaces\ITable.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Filemonitor.ClassLibrary\Filemonitor.ClassLibrary.csproj">
-      <Project>{65d4d823-7aa5-4fb6-9413-9d35064d17de}</Project>
-      <Name>Filemonitor.ClassLibrary</Name>
-    </ProjectReference>
+    <Compile Include="Sha1HashGenerator.cs" />
+    <Compile Include="SimulatedDatabase.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

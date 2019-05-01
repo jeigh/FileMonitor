@@ -4,5 +4,9 @@
 
 *.suo
 *.exe
-/Source/FileMonitor.ScanningAgent/obj/
-/Source/FileMonitor.ScanningAgent/bin/
+**/obj/
+**/bin/
+*.dll
+*.pdb
+*.cache
+/Source/Filemonitor.ClassLibrary/obj/Debug/Filemonitor.ClassLibrary.csproj.FileListAbsolute.txt

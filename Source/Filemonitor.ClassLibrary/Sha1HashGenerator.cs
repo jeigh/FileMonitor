@@ -2,7 +2,7 @@ using System.IO;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace FileMonitor.ScanningAgent
+namespace FileMonitor.ClassLibrary
 {
     public class Sha1HashGenerator : IHashGenerator
     {

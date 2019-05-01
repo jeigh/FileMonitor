@@ -1,6 +1,6 @@
 using System.Data;
 
-namespace FileMonitor.ScanningAgent
+namespace FileMonitor.ClassLibrary
 {
     public interface ITable
     {

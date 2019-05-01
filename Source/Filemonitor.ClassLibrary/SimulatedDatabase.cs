@@ -5,7 +5,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 
 
-namespace FileMonitor.ScanningAgent
+namespace FileMonitor.ClassLibrary
 {
     public class SimulatedDatabase : IFileMonitorDataAccess
     {

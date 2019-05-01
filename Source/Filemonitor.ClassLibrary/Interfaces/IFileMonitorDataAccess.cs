@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
 
-namespace FileMonitor.ScanningAgent
+namespace FileMonitor.ClassLibrary
 {
-    interface IFileMonitorDataAccess
+    public interface IFileMonitorDataAccess
     {
         bool FileAlreadyHashed(string filePath);
         void UpdateFileHash(string filePath, string hash, DateTime fileMofifiedOn, DateTime fileCreatedOn, long fileSize);

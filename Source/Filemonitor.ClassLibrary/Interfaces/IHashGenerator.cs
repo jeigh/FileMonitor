@@ -1,4 +1,4 @@
-namespace FileMonitor.ScanningAgent
+namespace FileMonitor.ClassLibrary
 {
     public interface IHashGenerator
     {

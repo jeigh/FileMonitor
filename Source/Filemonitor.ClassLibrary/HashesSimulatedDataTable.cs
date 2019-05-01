@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using System.Data;
 
-namespace FileMonitor.ScanningAgent
+namespace FileMonitor.ClassLibrary
 {
     public class HashesSimulatedDataTable : ITable
     {
