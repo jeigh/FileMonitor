@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Runtime.InteropServices;
+using FileMonitor.ClassLibrary.TransferObjects;
 
 
 namespace FileMonitor.ClassLibrary
@@ -64,8 +65,9 @@ namespace FileMonitor.ClassLibrary
             _hashes.PersistDatabase();
         }
 
-        public Dictionary<string, string> GetAllHashedFiles() => _hashes.GetAllHashedFiles();
-
+       
+        public IEnumerable<HashedFile> GetAllHashedFileInstances() => _hashes.GetAllHashedFileInstances();
+        
         public void AddFailure(string filePath, string errorMessage, string stackTrace)
         {
             DataRow dr = _errors.NewRow();

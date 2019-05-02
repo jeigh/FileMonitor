@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Generic;
 using System.Data;
+using FileMonitor.ClassLibrary.TransferObjects;
 
 namespace FileMonitor.ClassLibrary
 {
@@ -58,6 +60,28 @@ namespace FileMonitor.ClassLibrary
 
             return returnable;
         }
+
+        public List<HashedFile> GetAllHashedFileInstances()
+        {
+            var returnable = new List<HashedFile>();
+            foreach (DataRow dr in fileHashesDataTable.Rows)
+            {
+                var newHash = new HashedFile();
+
+                newHash.FilePath = dr["FilePath"].ToString();
+                newHash.Hash = dr["Hash"].ToString();
+                newHash.LastScannedOn = DateTime.Parse(dr["LastScannedOn"].ToString());
+                newHash.FileModifiedOn = DateTime.Parse(dr["FileModifiedOn"].ToString());
+                newHash.FileCreatedOn = DateTime.Parse(dr["FileCreatedOn"].ToString());
+                newHash.FileSize = Int32.Parse(dr["FileSize"].ToString());
+                
+                returnable.Add(newHash);
+                
+            }
+
+            return returnable;
+        }
+
 
         public bool FileAlreadyHashed(string filePath)
         {
